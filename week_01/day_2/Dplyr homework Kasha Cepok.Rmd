@@ -1,0 +1,73 @@
+---
+title: "Homework week_01 day_2 Kasha Cepok"
+output: html_notebook
+---
+
+```{r}
+library(CodeClanData)
+drinks_content
+```
+1)
+```{r}
+drinks_content %>% 
+  dim()
+```
+```{r}
+drinks_content %>% 
+  names()
+```
+2)
+```{r}
+bev_cal <- drinks_content %>% 
+  select(Beverage_category, Beverage, Beverage_prep, Calories)
+bev_cal
+```
+```{r}
+bev_cal %>% 
+  mutate(is.na(bev_cal))
+bev_cal
+```
+```{r}
+bev_cal %>% 
+  mutate(calorie_diff = Calories - 135)
+```
+4) The categories with the most calories: Classic espresso drinks, Tazo tea drinks, signature espresso drink.
+The categories with the least calories: coffee, smoothies, Frappuccino light blended coffee.
+```{r}
+bev_cal %>% 
+  group_by(Beverage_category) %>% 
+  summarise(mean_calories = mean(n())) %>% 
+  arrange(mean_calories)
+
+```
+5)
+```{r}
+bev_cal %>% 
+  group_by(Beverage_prep) %>% 
+  summarise(mean_calories = mean(n())) %>% 
+  arrange(mean_calories)
+```
+6)
+```{r}
+mean_all_cal <- drinks_content %>% 
+  mean(Calories, na.rm = TRUE)
+mean_all_cal
+```
+7) Tazo tea in any size
+```{r}
+drinks_content %>% 
+  select(Beverage, Calories) %>% 
+  arrange(Calories)
+```
+```{r}
+drinks_content %>% 
+  select(Beverage_category, Calories) %>% 
+  arrange(Calories)
+```
+```{r}
+drinks_content %>% 
+  select(Beverage_prep, Calories) %>% 
+  arrange(Calories)
+```
+
+
