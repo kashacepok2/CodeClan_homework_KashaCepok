@@ -4,6 +4,10 @@ output: html_notebook
 ---
 
 ```{r}
+library(tidyverse)
+```
+
+```{r}
 library(CodeClanData)
 drinks_content
 ```
@@ -27,6 +31,7 @@ bev_cal %>%
   mutate(is.na(bev_cal))
 bev_cal
 ```
+3)
 ```{r}
 bev_cal %>% 
   mutate(calorie_diff = Calories - 135)
@@ -57,12 +62,14 @@ mean_all_cal
 ```{r}
 drinks_content %>% 
   select(Beverage, Calories) %>% 
-  arrange(Calories)
+  arrange(Calories) %>% 
+  filter(Beverage != "Tazo® Tea")
 ```
 ```{r}
 drinks_content %>% 
   select(Beverage_category, Calories) %>% 
-  arrange(Calories)
+  arrange(Calories) %>% 
+  filter(Beverage_category != "Tazo® Tea Drinks")
 ```
 ```{r}
 drinks_content %>% 
