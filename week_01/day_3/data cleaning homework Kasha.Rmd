@@ -1,0 +1,72 @@
+---
+title: "week_01 day_3 homework - cleaning data"
+output: html_notebook
+---
+
+```{r}
+movies <- read_csv("C:/Users/kasha/Documents/CodeClan/de19_classnotes/week_01/day_3/7_homework_cleaning_data/data/movies.csv")
+movies
+```
+1. - remove second "titles" column
+- convert budget/revenue to scientific notation
+- 
+
+
+2.
+```{r}
+movies_selected <- movies %>% 
+  select(original_title, budget, runtime)
+```
+
+3.
+```{r}
+movies_selected %>% 
+  summarise(count = sum(is.na(original_title)))
+
+movies_selected %>% 
+  summarise(count = sum(is.na(runtime)))
+
+movies_selected %>% 
+  summarise(count = sum(is.na(budget)))
+```
+4.
+```{r}
+movies_runtime <- movies_selected %>%
+  mutate(runtime = na_if(runtime, 0))
+movies_runtime
+```
+```{r}
+movies_runtime %>% 
+  summarise(count = sum(is.na(runtime)))
+```
+5.
+```{r}
+movies_inputed <- movies_selected %>% 
+  mutate(runtime = coalesce(runtime, median(runtime, na.rm = TRUE)))
+
+movies_inputed %>% 
+  summarise(count = sum(is.na(runtime)))
+```
+6.
+```{r}
+movies_inputed %>% 
+  slice_max(runtime, n = 10) %>% 
+```
+```{r}
+movies_inputed %>% 
+  slice_min(runtime, n = 10)
+```
+
+```{r}
+movies_inputed <- movies_inputed %>% 
+  mutate(budget = if_else(budget < 100, median(budget), budget))
+
+movies_inputed
+```
+
+
+
+
+
+
+
