@@ -2,6 +2,9 @@
 title: "week_01 day_3 homework - cleaning data"
 output: html_notebook
 ---
+```{r}
+library(tidyverse)
+```
 
 ```{r}
 movies <- read_csv("C:/Users/kasha/Documents/CodeClan/de19_classnotes/week_01/day_3/7_homework_cleaning_data/data/movies.csv")
@@ -41,7 +44,7 @@ movies_runtime %>%
 ```
 5.
 ```{r}
-movies_inputed <- movies_selected %>% 
+movies_inputed <- movies_runtime %>% 
   mutate(runtime = coalesce(runtime, median(runtime, na.rm = TRUE)))
 
 movies_inputed %>% 
@@ -50,18 +53,41 @@ movies_inputed %>%
 6.
 ```{r}
 movies_inputed %>% 
-  slice_max(runtime, n = 10) %>% 
+  slice_max(runtime, n = 10)
 ```
 ```{r}
 movies_inputed %>% 
   slice_min(runtime, n = 10)
 ```
-
+7.
 ```{r}
 movies_inputed <- movies_inputed %>% 
   mutate(budget = if_else(budget < 100, median(budget), budget))
 
 movies_inputed
+```
+Extension 1.
+```{r}
+movie_budgets <- movies_inputed %>% 
+  mutate(
+    budget_type = case_when(
+      budget < 12e6 ~ "Small budget",
+      budget < 40e6 ~ "Medium budget",
+      budget >= 40e6 ~ "Big budget"
+    )
+  )
+
+movie_budgets
+```
+
+Extension 2.
+```{r}
+movies %>% 
+  summarise(across(where(is.numeric), ~sum(is.na(.x))))
+```
+```{r}
+movies %>% 
+  summarise(across(where(is.character), ~sum(is.na(.x))))
 ```
 
 
