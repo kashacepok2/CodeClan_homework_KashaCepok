@@ -1,0 +1,118 @@
+---
+title: "Week 01 weekend homework"
+output: html_notebook
+---
+
+```{r}
+books <- read.csv("C:/Users/kasha/Documents/CodeClan/de19_classnotes/week_01/day_5/2_weekend_homework/data/books.csv")
+
+library(tidyverse)
+```
+
+```{r}
+# Getting an idea of what the data looks like
+glimpse(books)
+```
+
+```{r}
+# Here we remove unneccesary cols, clean up a col name, and simplify some data
+books_clean <- books %>% 
+  select(rowid, title, authors, average_rating, isbn, language_code, num_pages,
+         ratings_count, text_reviews_count, publication_date, publisher) %>% 
+  rename(row_id = rowid) %>% 
+  mutate(language_code = recode(language_code, "en-US" = "eng", .default = language_code))
+books_clean
+```
+```{r}
+#now to deal with NA's
+books_clean %>% 
+  summarise(across(
+    everything(),
+    ~sum(is.na(.x))
+  ))
+# There's none! :)
+```
+What do we want to find out about the data set?
+
+1. Which author is the most successful?
+2. Which publishing company is the most successful?
+3. which book is most "talked about"?
+4. What proportion of books are in english?
+5. What are the longest and shortest books?
+
+## 1. Which author is most successful - highest average rating
+
+To find the author(s) with the highest average rating, we can group the books together by author, and take the average of their average ratings. However, books that have a low number of ratings may have an unfair advantage/disadvantage as one rating will hold more weight in the average. Therefore, we must filter out books with a relatively low number of ratings.
+```{r}
+books_avg <- books_clean %>% 
+  filter(ratings_count > 100) %>% 
+  group_by(authors) %>% 
+  summarise(avg_avg_rating = mean(average_rating)) %>% 
+  arrange(desc(avg_avg_rating))
+
+books_avg 
+```
+Now we know that American Photographer Saul Leiter has the most popular work!
+
+## 2. Which publisher is most successful? Highest average rating 
+
+Similarly, we can find which publishing company has printed the most successful books on average.
+
+```{r}
+publisher_avg <- books_clean %>% 
+  filter(ratings_count > 100) %>% 
+  group_by(publisher) %>% 
+  summarise(avg_avg_rating = mean(average_rating)) %>% 
+  arrange(desc(avg_avg_rating))
+
+publisher_avg 
+```
+It seems German publishing house Steidl have a keen eye for good books!
+
+## 3. Which book is most "talked about"? Highest number of text reviews
+
+We can find this by arranging our data by text review count.
+
+```{r}
+books_clean %>% 
+  arrange(desc(text_reviews_count)) %>% 
+  head(1)
+```
+Are we surprised? Twilight is so bad it's good!
+
+## 4. What proportion of books are in english?
+
+by filtering for rows where the language code = eng (english), we can divide the number of rows where this occurs by the total number of rows in our dataset to find the proportion of books in english
+```{r}
+books_clean %>% 
+  filter(language_code == "eng") %>% 
+  summarise(prop_eng = n()/nrow(books_clean))
+```
+almost 93% are originally written in english.
+
+## 5. What are the longest and shortest books?
+
+Again we can use the arrange function on the page count to find the longest and shortest books in the dataset.
+
+```{r}
+books_clean %>% 
+  arrange(desc(num_pages)) %>% 
+  head(1)
+```
+```{r}
+books_clean %>% 
+  arrange(desc(num_pages)) %>% 
+  tail(1)
+```
+Both our results here take the crown for longest and shortest books on a technicality; The longest book being a collection of novels, and the shortest being an audiobook. Sneaky!
+
+
+
+
+
+
+
+
+
+
+
