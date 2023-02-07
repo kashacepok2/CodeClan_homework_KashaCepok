@@ -1,0 +1,78 @@
+---
+title: "W02D1 homework"
+output: html_notebook
+---
+
+1)
+```{r}
+library(tidyverse)
+
+card <- read_csv("Day_1/CardBase.csv")
+customer <- read_csv("Day_1/CustomerBase.csv")
+fraud <- read_csv("Day_1/FraudBase.csv")
+transaction <- read_csv("Day_1/TransactionBase.csv")
+
+card
+customer
+fraud
+transaction
+```
+2)
+```{r}
+left_join(card, customer,
+           by = c("Cust_ID" = "Cust_ID"))
+card_cust
+```
+3)
+```{r}
+full_join(fraud, transaction,
+           by = c("Transaction_ID" = "Transaction_ID"))
+
+trans_fraud
+```
+4) 
+```{r}
+inner_join(card, transaction,
+           by = c("Card_Number" = "Credit_Card_ID"))
+```
+5)
+```{r}
+hats <- read_csv("Day_1/hat_observations.csv")
+
+hats
+```
+```{r}
+hats_sep <- hats %>% 
+  separate(observation, c("hat_colour", "hat_type"), sep = "\\,")
+hats_sep
+```
+6) 18/6/2018
+```{r}
+hats_sep %>% 
+  unite(date, c("day", "month", "year"), sep = "/") %>% 
+  filter(hat_type == "beret") %>% 
+  arrange(desc(observation_count))
+```
+extension 1)
+
+```{r}
+card_cust <- inner_join(card, customer,
+           by = c("Cust_ID" = "Cust_ID"))
+
+trans_fraud <- inner_join(fraud, transaction,
+           by = c("Transaction_ID" = "Transaction_ID"))
+
+all_data <- inner_join(card_cust, trans_fraud,
+           by = c("Transaction_ID" = "Transaction_ID"))
+
+all_data
+
+```
+
+
+
+
+
+
+
+
