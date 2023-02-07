@@ -32,7 +32,7 @@ trans_fraud
 ```
 4) 
 ```{r}
-inner_join(card, transaction,
+semi_join(card, transaction,
            by = c("Card_Number" = "Credit_Card_ID"))
 ```
 5)
@@ -54,7 +54,6 @@ hats_sep %>%
   arrange(desc(observation_count))
 ```
 extension 1)
-
 ```{r}
 card_cust <- inner_join(card, customer,
            by = c("Cust_ID" = "Cust_ID"))
@@ -63,9 +62,13 @@ trans_fraud <- inner_join(fraud, transaction,
            by = c("Transaction_ID" = "Transaction_ID"))
 
 all_data <- inner_join(card_cust, trans_fraud,
-           by = c("Transaction_ID" = "Transaction_ID"))
+           by = c("Card_Number" = "Credit_Card_ID"))
 
 all_data
+
+```
+extension 2)
+```{r}
 
 ```
 
