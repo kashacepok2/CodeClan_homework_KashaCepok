@@ -52,6 +52,6 @@ tweet_info <- inner_join(tweets, info,
 tweet_info %>% 
   select(tweet_id, hashtags) %>% 
   mutate(hashtags = tolower(hashtags)) %>% 
-  filter(!is.na(hashtags))
+  filter(is.na(hashtags))
 ```
 
