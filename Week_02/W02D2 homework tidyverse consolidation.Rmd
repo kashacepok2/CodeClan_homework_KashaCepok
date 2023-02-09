@@ -7,7 +7,7 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 
-tweets <- read_csv("day_2/code_clan_tweets.csv")
+tweets <- read_csv("")
 info <- read_csv("day_2/code_clan_info.csv")
 
 tweets
@@ -33,7 +33,7 @@ tweets %>%
 4)
 ```{r}
 tweets %>% 
-  mutate(media_type = if_else(media_type == NA, "text", media_type)) 
+  mutate(media_type = if_else(is.na(media_type), "text", media_type)) 
 
 ```
 5)
