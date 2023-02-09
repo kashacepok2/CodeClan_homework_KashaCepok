@@ -63,28 +63,36 @@ answers(10)
 6)
 ```{r}
 check_vector <- function(x, y) {
-  if (x == y) {
+  if (all(x == y)) {
     return("Exactly the same")
   }
-  if (x != y) {
-    sort(x)
-    sort(y)
-    if (x == y) {
+  if (any(x != y)) {
+    x <- sort(x)
+    x <- sort(y)
+    if (all(x == y)) {
       return("The same")
     }
-    if (x != y) {
       return("Different")
-    }
   }
 }
   
 ```
 
 ```{r}
-v1 <- c(1, 2, 3)
+v1 <- c(4, 5, 6)
 v2 <- c(1, 2, 3)
 
 check_vector(v1, v2)
+```
+
+
+```{r}
+debug(check_vector)
+
+check_vector(v1,v2)
+```
+```{r}
+undebug(check_vector)
 ```
 
 

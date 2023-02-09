@@ -1887,12 +1887,12 @@ $Week_2
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zd2VycyA8LSBmdW5jdGlvbih4KSB7XG4gIGlmIChpcy5jaGFyYWN0ZXIoeCkgPT0gVFJVRSkge1xuICAgIHJldHVybihzdHJfYyhcIlRoZSBhbnN3ZXIgaXM6IFwiLCB4KSlcbiAgfVxuICBpZiAoaXMubnVtZXJpYyh4KSA9PSBUUlVFICYgeCA8PSAxMCkge1xuICAgIHJldHVybih4KVxuICB9XG4gIGlmIChpcy5udW1lcmljKHgpID09IFRSVUUgJiB4ID4gMTApIHtcbiAgICByZXR1cm4oeC8xMClcbiAgfSBlbHNlIHtcbiAgICByZXR1cm4oXCJJbnZhbGlkIGlucHV0XCIpXG4gIH1cbn1cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zd2VycyA8LSBmdW5jdGlvbih4KSB7XG4gIGlmIChpcy5jaGFyYWN0ZXIoeCkgPT0gVFJVRSkge1xuICAgIHJldHVybihzdHJfYyhcIlRoZSBhbnN3ZXIgaXM6IFwiLCB4KSlcbiAgfVxuICBpZiAoaXMubnVtZXJpYyh4KSA9PSBUUlVFICYgeCA8IDEwKSB7XG4gICAgcmV0dXJuKHgpXG4gIH1cbiAgaWYgKGlzLm51bWVyaWMoeCkgPT0gVFJVRSAmIHggPiAxMCkge1xuICAgIHJldHVybih4LzEwKVxuICB9IGVsc2Uge1xuICAgIHJldHVybihcIkludmFsaWQgaW5wdXRcIilcbiAgfVxufVxuYGBgIn0= -->
 <pre class="r"><code>answers &lt;- function(x) {
   if (is.character(x) == TRUE) {
     return(str_c(&quot;The answer is: &quot;, x))
   }
-  if (is.numeric(x) == TRUE &amp; x &lt;= 10) {
+  if (is.numeric(x) == TRUE &amp; x &lt; 10) {
     return(x)
   }
   if (is.numeric(x) == TRUE &amp; x &gt; 10) {
@@ -1915,8 +1915,8 @@ $Week_2
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5zd2VycygxMClcbmBgYCJ9 -->
 <pre class="r"><code>answers(10)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEwXG4ifQ== -->
-<pre><code>[1] 10</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiSW52YWxpZCBpbnB1dFwiXG4ifQ== -->
+<pre><code>[1] &quot;Invalid input&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1925,20 +1925,18 @@ $Week_2
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2hlY2tfdmVjdG9yIDwtIGZ1bmN0aW9uKHgsIHkpIHtcbiAgaWYgKHggPT0geSkge1xuICAgIHJldHVybihcIkV4YWN0bHkgdGhlIHNhbWVcIilcbiAgfVxuICBpZiAoeCAhPSB5KSB7XG4gICAgc29ydCh4KVxuICAgIHNvcnQoeSlcbiAgICBpZiAoeCA9PSB5KSB7XG4gICAgICByZXR1cm4oXCJUaGUgc2FtZVwiKVxuICAgIH1cbiAgICBpZiAoeCAhPSB5KSB7XG4gICAgICByZXR1cm4oXCJEaWZmZXJlbnRcIilcbiAgICB9XG4gIH1cbn1cbiAgXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2hlY2tfdmVjdG9yIDwtIGZ1bmN0aW9uKHgsIHkpIHtcbiAgaWYgKGFsbCh4ID09IHkpKSB7XG4gICAgcmV0dXJuKFwiRXhhY3RseSB0aGUgc2FtZVwiKVxuICB9XG4gIGlmIChhbnkoeCAhPSB5KSkge1xuICAgIHggPC0gc29ydCh4KVxuICAgIHggPC0gc29ydCh5KVxuICAgIGlmIChhbGwoeCA9PSB5KSkge1xuICAgICAgcmV0dXJuKFwiVGhlIHNhbWVcIilcbiAgICB9XG4gICAgICByZXR1cm4oXCJEaWZmZXJlbnRcIilcbiAgfVxufVxuICBcbmBgYCJ9 -->
 <pre class="r"><code>check_vector &lt;- function(x, y) {
-  if (x == y) {
+  if (all(x == y)) {
     return(&quot;Exactly the same&quot;)
   }
-  if (x != y) {
-    sort(x)
-    sort(y)
-    if (x == y) {
+  if (any(x != y)) {
+    x &lt;- sort(x)
+    x &lt;- sort(y)
+    if (all(x == y)) {
       return(&quot;The same&quot;)
     }
-    if (x != y) {
       return(&quot;Different&quot;)
-    }
   }
 }
   </code></pre>
@@ -1947,20 +1945,55 @@ $Week_2
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudjEgPC0gYygxLCAyLCAzKVxudjIgPC0gYygxLCAyLCAzKVxuXG5jaGVja192ZWN0b3IodjEsIHYyKVxuYGBgIn0= -->
-<pre class="r"><code>v1 &lt;- c(1, 2, 3)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudjEgPC0gYyg0LCA1LCA2KVxudjIgPC0gYygxLCAyLCAzKVxuXG5jaGVja192ZWN0b3IodjEsIHYyKVxuYGBgIn0= -->
+<pre class="r"><code>v1 &lt;- c(4, 5, 6)
 v2 &lt;- c(1, 2, 3)
 
 check_vector(v1, v2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gaWYgKHggPT0geSkgeyA6IHRoZSBjb25kaXRpb24gaGFzIGxlbmd0aCA+IDFcbiJ9 -->
-<pre><code>Error in if (x == y) { : the condition has length &gt; 1</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGhlIHNhbWVcIlxuIn0= -->
+<pre><code>[1] &quot;The same&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVidWcoY2hlY2tfdmVjdG9yKVxuXG5jaGVja192ZWN0b3IodjEsdjIpXG5gYGAifQ== -->
+<pre class="r"><code>debug(check_vector)
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlcwMkQzIEhvbWV3b3JrIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KMSkNCmBgYHtyfQ0KVGh1cnNkYXkgPC0gbGlzdCgiNyIsICIyMCIsICIyMCIpDQpGcmlkYXkgPC0gbGlzdCgiMTAiLCAiMjAiLCAiMjAiKQ0KU2F0dXJkYXkgPC0gbGlzdCgiOSIsICIyMCIsICIxNiIpDQoNCndlYXRoZXIgPC0gbGlzdChUaHVyc2RheSwgRnJpZGF5LCBTYXR1cmRheSkNCmBgYA0KDQoyKQ0KYGBge3J9DQp3ZWF0aGVyW1sxXV1bMl0NCndlYXRoZXJbWzJdXVszXQ0Kd2VhdGhlcltbMV1dWzFdDQpgYGANCg0KMykNCmBgYHtyfQ0KdGVtcGVyYXR1cmVzIDwtIGxpc3QoOSwgOSwgMTEsIDExLCAxMCwgMTEsIDExLCAxMCwgMTAsIDExLCAxMSwgMTEsIDExLCAxMSkNCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdCA8LSBtYXRyaXgodGVtcGVyYXR1cmVzLCBucm93ID0gMiwgbmNvbCA9IDcsIGJ5cm93ID0gVFJVRSkNCmNvbG5hbWVzKGZvdXJ0ZWVuX2RheV9mb3JlY2FzdCkgPC0gbGlzdCgiVGh1cnNkYXkiLCAiRnJpZGF5IiwgIlNhdHVyZGF5IiwgIlN1bmRheSIsICJNb25kYXkiLCAiVHVlc2RheSIsICJXZWRuZXNkYXkiKQ0Kcm93bmFtZXMoZm91cnRlZW5fZGF5X2ZvcmVjYXN0KSA8LSBsaXN0KCJXZWVrXzEiLCAiV2Vla18yIikNCg0KZm91cnRlZW5fZGF5X2ZvcmVjYXN0DQpgYGANCjQpDQpgYGB7cn0NCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdFsyLCAzXQ0KYGBgDQpgYGB7cn0NCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdFsyLCAxOjddDQpgYGANCmBgYHtyfQ0KZm91cnRlZW5fZGF5X2ZvcmVjYXN0WzE6MiwgMV0NCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdFsxOjIsIDNdDQpmb3VydGVlbl9kYXlfZm9yZWNhc3RbMToyLCA1XQ0KYGBgDQpgYGB7cn0NCmFuc3dlcnMgPC0gZnVuY3Rpb24oeCkgew0KICBpZiAoaXMuY2hhcmFjdGVyKHgpID09IFRSVUUpIHsNCiAgICByZXR1cm4oc3RyX2MoIlRoZSBhbnN3ZXIgaXM6ICIsIHgpKQ0KICB9DQogIGlmIChpcy5udW1lcmljKHgpID09IFRSVUUgJiB4IDwgMTApIHsNCiAgICByZXR1cm4oeCkNCiAgfQ0KICBpZiAoaXMubnVtZXJpYyh4KSA9PSBUUlVFICYgeCA+IDEwKSB7DQogICAgcmV0dXJuKHgvMTApDQogIH0gZWxzZSB7DQogICAgcmV0dXJuKCJJbnZhbGlkIGlucHV0IikNCiAgfQ0KfQ0KYGBgDQoNCmBgYHtyfQ0KYW5zd2Vycygid293ISIpDQphbnN3ZXJzKDEwKQ0KYGBgDQo2KQ0KYGBge3J9DQpjaGVja192ZWN0b3IgPC0gZnVuY3Rpb24oeCwgeSkgew0KICBpZiAoeCA9PSB5KSB7DQogICAgcmV0dXJuKCJFeGFjdGx5IHRoZSBzYW1lIikNCiAgfQ0KICBpZiAoeCAhPSB5KSB7DQogICAgc29ydCh4KQ0KICAgIHNvcnQoeSkNCiAgICBpZiAoeCA9PSB5KSB7DQogICAgICByZXR1cm4oIlRoZSBzYW1lIikNCiAgICB9DQogICAgaWYgKHggIT0geSkgew0KICAgICAgcmV0dXJuKCJEaWZmZXJlbnQiKQ0KICAgIH0NCiAgfQ0KfQ0KICANCmBgYA0KDQpgYGB7cn0NCnYxIDwtIGMoMSwgMiwgMykNCnYyIDwtIGMoMSwgMiwgMykNCg0KY2hlY2tfdmVjdG9yKHYxLCB2MikNCmBgYA0KDQoNCg0KDQoNCg==</div>
+check_vector(v1,v2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiZGVidWdnaW5nIGluOiBjaGVja192ZWN0b3IodjEsIHYyKVxuZGVidWcgYXQgIzE6IHtcbiAgICBpZiAoYWxsKHggPT0geSkpIHtcbiAgICAgICAgcmV0dXJuKFwiRXhhY3RseSB0aGUgc2FtZVwiKVxuICAgIH1cbiAgICBlbHNlIGlmIChhbGwoeCAhPSB5KSkge1xuICAgICAgICBzb3J0KHgpXG4gICAgICAgIHNvcnQoeSlcbiAgICAgICAgaWYgKGFsbCh4ID09IHkpKSB7XG4gICAgICAgICAgICByZXR1cm4oXCJUaGUgc2FtZVwiKVxuICAgICAgICB9XG4gICAgICAgIGVsc2UgaWYgKGFsbCh4ICE9IHkpKSB7XG4gICAgICAgICAgICByZXR1cm4oXCJEaWZmZXJlbnRcIilcbiAgICAgICAgfVxuICAgIH1cbn1cbiJ9 -->
+<pre><code>debugging in: check_vector(v1, v2)
+debug at #1: {
+    if (all(x == y)) {
+        return(&quot;Exactly the same&quot;)
+    }
+    else if (all(x != y)) {
+        sort(x)
+        sort(y)
+        if (all(x == y)) {
+            return(&quot;The same&quot;)
+        }
+        else if (all(x != y)) {
+            return(&quot;Different&quot;)
+        }
+    }
+}</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuUVxuYGBgIn0= -->
+<pre class="r"><code>Q</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5kZWJ1ZyhjaGVja192ZWN0b3IpXG5gYGAifQ== -->
+<pre class="r"><code>undebug(check_vector)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlcwMkQzIEhvbWV3b3JrIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KMSkNCmBgYHtyfQ0KVGh1cnNkYXkgPC0gbGlzdCgiNyIsICIyMCIsICIyMCIpDQpGcmlkYXkgPC0gbGlzdCgiMTAiLCAiMjAiLCAiMjAiKQ0KU2F0dXJkYXkgPC0gbGlzdCgiOSIsICIyMCIsICIxNiIpDQoNCndlYXRoZXIgPC0gbGlzdChUaHVyc2RheSwgRnJpZGF5LCBTYXR1cmRheSkNCmBgYA0KDQoyKQ0KYGBge3J9DQp3ZWF0aGVyW1sxXV1bMl0NCndlYXRoZXJbWzJdXVszXQ0Kd2VhdGhlcltbMV1dWzFdDQpgYGANCg0KMykNCmBgYHtyfQ0KdGVtcGVyYXR1cmVzIDwtIGxpc3QoOSwgOSwgMTEsIDExLCAxMCwgMTEsIDExLCAxMCwgMTAsIDExLCAxMSwgMTEsIDExLCAxMSkNCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdCA8LSBtYXRyaXgodGVtcGVyYXR1cmVzLCBucm93ID0gMiwgbmNvbCA9IDcsIGJ5cm93ID0gVFJVRSkNCmNvbG5hbWVzKGZvdXJ0ZWVuX2RheV9mb3JlY2FzdCkgPC0gbGlzdCgiVGh1cnNkYXkiLCAiRnJpZGF5IiwgIlNhdHVyZGF5IiwgIlN1bmRheSIsICJNb25kYXkiLCAiVHVlc2RheSIsICJXZWRuZXNkYXkiKQ0Kcm93bmFtZXMoZm91cnRlZW5fZGF5X2ZvcmVjYXN0KSA8LSBsaXN0KCJXZWVrXzEiLCAiV2Vla18yIikNCg0KZm91cnRlZW5fZGF5X2ZvcmVjYXN0DQpgYGANCjQpDQpgYGB7cn0NCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdFsyLCAzXQ0KYGBgDQpgYGB7cn0NCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdFsyLCAxOjddDQpgYGANCmBgYHtyfQ0KZm91cnRlZW5fZGF5X2ZvcmVjYXN0WzE6MiwgMV0NCmZvdXJ0ZWVuX2RheV9mb3JlY2FzdFsxOjIsIDNdDQpmb3VydGVlbl9kYXlfZm9yZWNhc3RbMToyLCA1XQ0KYGBgDQpgYGB7cn0NCmFuc3dlcnMgPC0gZnVuY3Rpb24oeCkgew0KICBpZiAoaXMuY2hhcmFjdGVyKHgpID09IFRSVUUpIHsNCiAgICByZXR1cm4oc3RyX2MoIlRoZSBhbnN3ZXIgaXM6ICIsIHgpKQ0KICB9DQogIGlmIChpcy5udW1lcmljKHgpID09IFRSVUUgJiB4IDwgMTApIHsNCiAgICByZXR1cm4oeCkNCiAgfQ0KICBpZiAoaXMubnVtZXJpYyh4KSA9PSBUUlVFICYgeCA+IDEwKSB7DQogICAgcmV0dXJuKHgvMTApDQogIH0gZWxzZSB7DQogICAgcmV0dXJuKCJJbnZhbGlkIGlucHV0IikNCiAgfQ0KfQ0KYGBgDQoNCmBgYHtyfQ0KYW5zd2Vycygid293ISIpDQphbnN3ZXJzKDEwKQ0KYGBgDQo2KQ0KYGBge3J9DQpjaGVja192ZWN0b3IgPC0gZnVuY3Rpb24oeCwgeSkgew0KICBpZiAoYWxsKHggPT0geSkpIHsNCiAgICByZXR1cm4oIkV4YWN0bHkgdGhlIHNhbWUiKQ0KICB9DQogIGlmIChhbnkoeCAhPSB5KSkgew0KICAgIHggPC0gc29ydCh4KQ0KICAgIHggPC0gc29ydCh5KQ0KICAgIGlmIChhbGwoeCA9PSB5KSkgew0KICAgICAgcmV0dXJuKCJUaGUgc2FtZSIpDQogICAgfQ0KICAgICAgcmV0dXJuKCJEaWZmZXJlbnQiKQ0KICB9DQp9DQogIA0KYGBgDQoNCmBgYHtyfQ0KdjEgPC0gYyg0LCA1LCA2KQ0KdjIgPC0gYygxLCAyLCAzKQ0KDQpjaGVja192ZWN0b3IodjEsIHYyKQ0KYGBgDQoNCg0KYGBge3J9DQpkZWJ1ZyhjaGVja192ZWN0b3IpDQoNCmNoZWNrX3ZlY3Rvcih2MSx2MikNCmBgYA0KYGBge3J9DQp1bmRlYnVnKGNoZWNrX3ZlY3RvcikNCmBgYA0KDQoNCg0KDQoNCg==</div>
 
 
 
