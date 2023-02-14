@@ -10,6 +10,7 @@ Friday <- list("10", "20", "20")
 Saturday <- list("9", "20", "16")
 
 weather <- list(Thursday, Friday, Saturday)
+weather
 ```
 
 2)
