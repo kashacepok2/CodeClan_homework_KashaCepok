@@ -46,7 +46,7 @@ ORDER BY count(department) ASC, fte_hours ASC;
 -- Question 6
 
 SELECT 
-    count(pension_enrol),
+    count(id),
     pension_enrol
 FROM employees 
 GROUP BY pension_enrol;
@@ -137,7 +137,7 @@ LIMIT 1;
 
 SELECT 
     department,
-    count(department) AS num_employees_missing_name
+    count(id) AS num_employees_missing_name
 FROM employees 
 WHERE first_name IS NULL
 GROUP BY department 
