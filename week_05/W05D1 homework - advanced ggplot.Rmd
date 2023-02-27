@@ -1,0 +1,139 @@
+---
+title: "W05D1 homework"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(CodeClanData)
+
+qb_revenue_breakdown
+```
+```{r}
+qikbit_theme <- function() {
+  theme(
+    axis.text = element_text(colour = "black", size = 10),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major.x = element_line(colour = "grey85", linetype = 1, size = 1),
+    panel.grid.major.y =  element_line(colour = "grey85", linetype = 1, size = 0.25),
+    axis.title = element_text(colour = "black", face = "bold", size = 12),
+    plot.title = element_text(colour = "black", size = 16)
+  )
+}
+```
+ 
+Question 1
+
+```{r}
+ggplot(qb_revenue_breakdown) +
+  aes(Year, Revenue, fill = Product) +
+  geom_col() +
+  labs(title = "Revenue per Year, sorted by product") +
+  qikbit_theme() +
+  scale_fill_manual(
+    values = c(
+      "Accessories" = "#E89FE9",
+      "Smart Watches" = "#F9A472",
+      "Subscription Services" = "#BD7040",
+      "Trackers" = "#B6A7B5"
+    )
+  )
+```
+Question 2
+```{r}
+qb_monthly_sales
+```
+
+```{r}
+qb_sales_filter <- qb_monthly_sales %>% 
+  filter(Cashflow == "Kwikbit Unit 1 Sales" & Date > "2019-01-01")
+
+qb_sales_filter
+```
+```{r}
+ggplot(qb_sales_filter) +
+  aes(x = Date, y = Amount, colour = "#BD7040") +
+  geom_line() +
+  labs(title = "Kwikbit Unit Sales per Month") +
+  qikbit_theme()
+```
+
+Question 3
+
+```{r}
+qb_sales_filter2 <- qb_monthly_sales %>% 
+  filter(Date > "2019-01-01" & Cashflow != "Kwikbit Unit 1 Sales")
+
+qb_sales_filter2
+```
+
+```{r}
+ggplot(qb_sales_filter2) +
+  aes(x = Date, y = Cashflow) +
+  geom_line(colour = "#BD7040") +
+  labs(title = "Revenue vs Cost over Time") +
+  qikbit_theme()
+```
+Question 4
+```{r}
+qb_competitors
+```
+
+```{r}
+ggplot(qb_competitors) +
+  aes(x = Year, y = Revenue, fill = Company) +
+  geom_area() +
+  labs(title = "Competitors Revenue over Time") +
+  qikbit_theme() +
+  scale_fill_manual(
+    values = c(
+      "Competitor 1" = "#E89FE9",
+      "Competitor 2" = "#F9A472",
+      "Competitor 3" = "#BD7040",
+      "Competitor 4" = "#B6A7B5"
+    )
+  )
+```
+Question 5 
+
+```{r}
+ggplot(qb_competitors) +
+  aes(x = Year, y = Revenue, fill = Company) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Competitors Revenue over Time") +
+  qikbit_theme() +
+  scale_colour_manual(
+    values = c(
+      "Competitor 1" = "#E89FE9",
+      "Competitor 2" = "#F9A472",
+      "Competitor 3" = "#BD7040",
+      "Competitor 4" = "#B6A7B5"
+    )
+  )
+```
+Question 6
+
+```{r}
+qb_device_data2 <- qb_device_data %>% 
+  mutate(time = paste(hours,":",mins))
+
+qb_device_data2
+```
+
+```{r}
+ggplot(qb_device_data2) +
+  geom_line(aes(x = time, y = counts)) +
+  facet_wrap(~ device, nrow = 4) +
+  labs(title = "Step Count over Time for Qikbit vs Competitors") +
+  qikbit_theme() +
+  scale_fill_manual(
+    values = c(
+      "competitor1" = "#E89FE9",
+      "competitor2" = "#F9A472",
+      "competitor3" = "#BD7040",
+      "qikbit1" = "#B6A7B5"
+    )
+  )
+```
+
