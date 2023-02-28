@@ -69,10 +69,14 @@ qb_sales_filter2
 
 ```{r}
 ggplot(qb_sales_filter2) +
-  aes(x = Date, y = Cashflow) +
-  geom_line(colour = "#BD7040") +
+  aes(x = Date, y = Amount) +
+  geom_line(aes(col = Cashflow)) +
+  geom_point(aes(col = Cashflow)) +
   labs(title = "Revenue vs Cost over Time") +
-  qikbit_theme()
+  qikbit_theme() +
+  scale_color_manual(values = c(
+    "Cost" = "#BD7040",
+    "Total Revenue" = "#F9A472"))
 ```
 Question 4
 ```{r}
@@ -80,6 +84,7 @@ qb_competitors
 ```
 
 ```{r}
+options(scipen = 10)
 ggplot(qb_competitors) +
   aes(x = Year, y = Revenue, fill = Company) +
   geom_area() +
@@ -98,7 +103,7 @@ Question 5
 
 ```{r}
 ggplot(qb_competitors) +
-  aes(x = Year, y = Revenue, fill = Company) +
+  aes(x = Year, y = Revenue, colour = Company) +
   geom_line() +
   geom_point() +
   labs(title = "Competitors Revenue over Time") +
@@ -116,18 +121,18 @@ Question 6
 
 ```{r}
 qb_device_data2 <- qb_device_data %>% 
-  mutate(time = paste(hours,":",mins))
+  mutate(time = hours + (mins/60))
 
 qb_device_data2
 ```
 
 ```{r}
 ggplot(qb_device_data2) +
-  geom_line(aes(x = time, y = counts)) +
-  facet_wrap(~ device, nrow = 4) +
+  geom_line(aes(x = time, y = counts, colour = device)) +
+  facet_grid(id ~ device) +
   labs(title = "Step Count over Time for Qikbit vs Competitors") +
   qikbit_theme() +
-  scale_fill_manual(
+  scale_colour_manual(
     values = c(
       "competitor1" = "#E89FE9",
       "competitor2" = "#F9A472",
