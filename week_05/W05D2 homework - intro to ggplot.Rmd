@@ -1,0 +1,120 @@
+---
+title: "W05D2 homework"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(CodeClanData)
+
+backpack
+```
+
+```{r}
+glimpse(backpack)
+```
+
+Question 2)
+```{r}
+ggplot(backpack) +
+  aes(x = backpack_weight) +
+  geom_histogram(colour = "white", fill = "orchid4") +
+  labs(title = "Distribution of backpack weight amongst students",
+       x = "backpack weight (lbs)")
+```
+The distribution shows that most students have a backpack weight of 11 lbs, followed by 5 and 8 lbs.
+
+Question 3)
+
+```{r}
+ggplot(backpack) +
+  aes(x = backpack_weight, group = sex, fill = sex) +
+  geom_histogram(colour = "white", position = "dodge") +
+  labs(title = "Distribution of backpack weight amongst students, varying by sex",
+       x = "backpack weight (lbs)")
+```
+The distribution shows that girls tend to carry lighter bags than boys
+
+Question 4)
+```{r}
+ggplot(backpack) +
+  aes(x = body_weight, y = backpack_weight) +
+  geom_point(colour = "orchid4") +
+  labs(title = "Backpack Weight as a function of Body Weight",
+       x = "body weight (lbs)",
+       y = "backpack weight (lbs)") +
+  geom_smooth(method = lm, se = FALSE, colour = "pink")
+```
+There is a small correlation between body weight and backpack weight
+
+Question 5)
+
+```{r}
+ggplot(backpack) +
+  aes(x = body_weight, y = backpack_weight, group = sex, colour = sex) +
+  geom_point() +
+  labs(title = "Backpack Weight as a function of Body Weight, By Gender",
+       x = "body weight (lbs)",
+       y = "backpack weight (lbs)") +
+  geom_smooth(method = lm, se = FALSE)
+```
+There is a stronger correlation for girls than for boys.
+
+Question 6)
+
+```{r}
+backpack_corrected <- backpack %>% 
+  filter(year != 0) %>% 
+  mutate(back_problems = case_when(
+    back_problems == 1 ~ "yes",
+    back_problems == 0 ~ "no"
+  ))
+
+backpack_corrected
+```
+
+```{r}
+ggplot(backpack_corrected) +
+  aes(x = back_problems) +
+  geom_bar(position = "stack", fill = "orchid4") +
+  labs(title = "Number of students who experience back pain vs those who don't",
+       x = "Back problems")
+```
+Roughly 30% of students report back problems.
+
+Question 7)
+
+```{r}
+ggplot(backpack_corrected) +
+  aes(x = back_problems, group = sex) +
+  geom_bar() +
+  labs(title = "Number of students who experience back pain vs those who don't",
+       x = "Back problems")
+```
+
+Question 8)
+
+```{r}
+ggplot(backpack_corrected) +
+  aes(x = body_weight, y = backpack_weight, group = sex, colour = sex) +
+  geom_point() +
+  labs(title = "Backpack Weight as a function of Body Weight, by gender and reported back pain",
+       x = "body weight (lbs)",
+       y = "backpack weight (lbs)") +
+  geom_smooth(method = lm, se = FALSE) +
+  facet_wrap(~ back_problems)
+```
+For those without back pain, their backpack weight positively correlates with their body weight. However for men with back pain, their backpack weight decreases with their body weight.
+
+Extension 1)
+
+```{r}
+ggplot(backpack_corrected) +
+  aes(x = back_problems, group = year) +
+  geom_bar()
+```
+
+
+
+
+
