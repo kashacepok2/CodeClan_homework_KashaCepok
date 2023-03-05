@@ -34,7 +34,8 @@ server <- function(input, output, session) {
       filter(name == input$game_input) %>% 
       ggplot() +
       aes(x = input$game_input, y = score, fill = critic_or_user) +
-      geom_col(position = "dodge")
+      geom_col(position = "dodge") +
+      xlab("Game")
   })
 }
 
