@@ -1,0 +1,51 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## W06D2 Homework
+
+1)
+```{r}
+library(tidyverse)
+library(janitor)
+
+items <- read_csv("20190928-items.csv") %>% 
+  clean_names()
+```
+```{r}
+items
+```
+
+2) Samsung - 397
+```{r}
+items %>% 
+  group_by(brand) %>% 
+  summarise(num = n()) %>% 
+  slice_max(num)
+```
+
+3)
+```{r}
+samsung_summary <- items %>%
+  filter(brand == "Samsung") %>% 
+  summarise(
+    num = n(),
+    mean = mean(rating),
+    sd = sd(rating)
+  )
+
+items %>% 
+  filter(brand == "Samsung") %>% 
+  ggplot(aes(x = rating)) +
+  geom_histogram(aes(y = after_stat(density)), col = "white") +
+  stat_function(
+    fun = dnorm,
+    args = list(
+      mean = samsung_summary$mean,
+      sd = samsung_summary$sd
+    ),
+    col = "springgreen4"
+  )
+```
+
