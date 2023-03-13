@@ -1,0 +1,140 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Week 6 weekend homework - Hypothesis testing
+
+## Part 1
+1)
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+
+msleep <- ggplot2::msleep
+```
+2) 
+H0: The mean sleep_total for all animals in the dataset differs from the mean sleep time for Jabberwockies (7 hours)
+    mean_sleep_total != 7 hours
+    
+Ha: The mean sleep_total for all animals in the dataset is the same as the mean sleep time for Jabberwockies (7 hours)
+    mean_sleep_total = 7 hours
+
+significance level: 0.05
+
+```{r}
+observed_stat_all <- msleep %>% 
+  summarise(mean_sleep_total = mean(sleep_total))
+
+observed_stat_all
+```
+mean time spent sleeping is 10.43
+
+```{r}
+null_dist_all <- msleep %>% 
+  specify(response = sleep_total) %>%
+  hypothesise(null = "point", mu = 10.43) %>% 
+  generate(reps = 5000, type = "bootstrap") %>% 
+  calculate(stat = "mean") 
+```
+
+```{r}
+null_dist_all %>% 
+  visualise(bins = 30) +
+  shade_p_value(obs_stat = observed_stat_all$mean_sleep_total,
+                direction = "both")
+```
+
+```{r}
+null_dist_all %>% 
+  get_p_value(obs_stat = observed_stat_all$mean_sleep_total,
+                direction = "both")
+```
+Our p-value is 0.99, meaning that the average sleep time of all animals differs from the average sleep time of Jabberwockies 99% of the time. As this is higher than our significance level of 0.05, we cannot reject our null hypothesis.
+
+2) 
+H0: On average, omnivores and herbivores sleep for similar lengths of time
+    mean_sleep_total_omni = mean_sleep_total_herbi
+    
+Ha: On average, omnivores sleep significantly longer than herbivores
+    mean_sleep_total_omni > mean_sleep_total_herbi
+    
+significance level: 0.05
+
+```{r}
+observed_stat_omni <- msleep %>% 
+  filter(vore == "carni" | vore == "herbi") %>% 
+  group_by(vore) %>% 
+  summarise(mean_sleep_total = mean(sleep_total))
+
+observed_stat_omni
+```
+observed average sleep for carnivores: 10.38 hrs
+observed average sleep for herbivores: 9.51 hrs
+
+```{r}
+null_dist_omni <- msleep %>% 
+  filter(vore == "carni" | vore == "herbi") %>% 
+  group_by(vore) %>% 
+  specify(response = sleep_total) %>%
+  hypothesise(null = "point", mu = 9.51) %>% 
+  generate(reps = 5000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+```
+
+```{r}
+null_dist_omni %>% 
+  visualise() +
+  shade_p_value(obs_stat = observed_stat_omni$mean_sleep_total,
+                direction = "greater")
+```
+
+```{r}
+p_value_omni <- null_dist_omni %>% 
+  get_p_value(obs_stat = observed_stat_omni$mean_sleep_total,
+              direction = "greater")
+```
+Our P-value is 0.29, meaning it is likely to observe a higher average sleep time for Carnivores than Herbivores. Therefore, we cannot reject our null hypothesis.
+
+3)
+
+
+## Part 2
+
+1) Proportional one sample test using the draw method for the null distribution.
+
+H0: 40% of the town population know of the coffee shop
+    prop_pop = 0.4
+    
+Ha: More than 40% of the town population know of the coffee shop
+    prop_pop > 0.4
+
+2) Proportional paired 2 sample test using draw method for the null distribution
+
+H0: More users click through when the banner is in the original position
+    prop_group_a_CTR > prop_group_b_CTR
+    
+Ha: More users click through when the banner is in the new position
+    prop_group_a_CTR < prop_group_b_CTR
+    
+3) Mean one sample test using bootstrap method for the null distribution
+
+H0: The mean width of the part is 145mm and thus meets company standards
+    mean_width = 145mm
+    
+Ha: The mean width of the part is not 145mm and therefore does not meet company standards
+    mean_width != 145mm
+
+## Part 3
+
+1) Our p-value is 0.07, meaning the event of more than 40% of our sample knowing of the coffee shop is likely to happen about 7% of the time. As this is higher than our significance level of 5%, this is not seen to be a significant event and thus we cannot reject our null hypothesis that only 40% of the town knows about the coffee shop.
+
+2) Our p-value is 0.006, meaning the event of the CTR being higher for group B (the group with the new banner position) happens only 0.6% of the time. As this is higher of our significance level of 0.01, we can reject our null hypothesis and confirm that the new banner placement leads to a higher CTR of website users.
+
+3) Our p-value is 0.55, meaning the event of the mean part width not being equal to 145mm happens 55% of the time. This is much higher than our significance level of 0.05, meaning we cannot reject our null hypothesis that the part width meets the company standard of 145mm.
+
+
+
+
+
