@@ -27,7 +27,7 @@ items %>%
 
 3)
 ```{r}
-samsung_summary <- items %>%
+samsung_stats <- items %>%
   filter(brand == "Samsung") %>% 
   summarise(
     num = n(),
@@ -35,17 +35,27 @@ samsung_summary <- items %>%
     sd = sd(rating)
   )
 
-items %>% 
+samsung_summary <- items %>% 
   filter(brand == "Samsung") %>% 
   ggplot(aes(x = rating)) +
-  geom_histogram(aes(y = after_stat(density)), col = "white") +
+  geom_histogram(aes(y = after_stat(density)), col = "white", fill = "springgreen4") +
   stat_function(
     fun = dnorm,
     args = list(
-      mean = samsung_summary$mean,
-      sd = samsung_summary$sd
+      mean = samsung_stats$mean,
+      sd = samsung_stats$sd
     ),
-    col = "springgreen4"
+    col = "firebrick"
   )
+
+samsung_summary
+```
+
+4)
+```{r}
+samsung_summary %>%
+  filter(rating >= samsung_stats$mean - samsung_stats$sd) %>%
+  filter(rating <= samsung_stats$mean + samsung_stats$sd) %>%
+  summarise(prop_within_1sd = n() / nrow(samsung_summary))
 ```
 
